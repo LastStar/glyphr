@@ -96,18 +96,24 @@ module Glyphr
 
     def compose_to_image
       x = false
+      last_code = false
+      kerning = [0, 0]
       glyph_codes.each do |code|
         face.load_glyph(code, FT2::Load::NO_HINTING)
         glyph = face.glyph.render(FT2::RenderMode::NORMAL)
         unless x
           x = glyph.bitmap_left.to_i < 0 ? -glyph.bitmap_left.to_i : 0
         end
+        if last_code
+          kerning = face.kerning(last_code, code, FT2::KerningMode::DEFAULT)
+          puts "kerning #{kerning}"
+        end
         if glyph.bitmap.width > 0
           glyph_image = OilyPNG::Canvas.new(glyph.bitmap.width,
                                             glyph.bitmap.rows,
                                             glyph.bitmap.buffer.bytes.to_a)
-          pen_x = x + glyph.bitmap_left.to_i
-          pen_y = (image_height - glyph.bitmap_top + @y_min)
+          pen_x = x + glyph.bitmap_left.to_i + (kerning.first / ONE64POINT)
+          pen_y = (image_height - glyph.bitmap_top + @y_min + kerning.last)
           if pen_x + glyph.bitmap.width < image_width
             @image.compose!(glyph_image, pen_x, pen_y)
           elsif (new_width = image_width - pen_x) > 0
@@ -117,7 +123,8 @@ module Glyphr
             break
           end
         end
-        x = (x + (h_advance || glyph.h_advance)).to_i
+        last_code = code
+        x = (x + (h_advance || glyph.h_advance) + (kerning.first / ONE64POINT)).to_i
       end
     end
 
