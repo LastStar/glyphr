@@ -106,7 +106,6 @@ module Glyphr
         end
         if last_code
           kerning = face.kerning(last_code, code, FT2::KerningMode::DEFAULT)
-          puts "kerning #{kerning}"
         end
         if glyph.bitmap.width > 0
           glyph_image = OilyPNG::Canvas.new(glyph.bitmap.width,
