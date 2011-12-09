@@ -4,14 +4,14 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{glyphr}
-  s.version = "0.3.11"
+  s.name = "glyphr"
+  s.version = "0.3.12"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Josef Pospisil"]
-  s.date = %q{2011-04-12}
-  s.description = %q{Library for rendering png images from otf font files, and general manipulation and info gathering from font file. Only rendering part is done and only on basic level.}
-  s.email = %q{josef.pospisil@laststar.eu}
+  s.date = "2011-12-09"
+  s.description = "Library for rendering png images from otf font files, and general manipulation and info gathering from font file. Only rendering part is done and only on basic level."
+  s.email = "josef.pospisil@laststar.eu"
   s.extra_rdoc_files = [
     "LICENSE.txt",
     "README.rdoc"
@@ -20,6 +20,7 @@ Gem::Specification.new do |s|
     ".document",
     ".rspec",
     ".rvmrc",
+    ".travis.yml",
     "Gemfile",
     "Gemfile.lock",
     "LICENSE.txt",
@@ -35,11 +36,11 @@ Gem::Specification.new do |s|
     "spec/glyphr_spec.rb",
     "spec/spec_helper.rb"
   ]
-  s.homepage = %q{http://github.com/pepe/glyphr}
+  s.homepage = "http://github.com/pepe/glyphr"
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.5.2}
-  s.summary = %q{Library for font manipulation in ruby}
+  s.rubygems_version = "1.8.10"
+  s.summary = "Library for font manipulation in ruby"
   s.test_files = [
     "spec/glyphr_spec.rb",
     "spec/spec_helper.rb"
