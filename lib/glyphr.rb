@@ -3,7 +3,8 @@ require 'ft2'
 
 module Glyphr
   class Renderer
-    attr_accessor :font, :size, :image_width, :image_height, :h_advance, :v_advance, :items_per_line
+    attr_accessor :font, :size, :image_width, :image_height, :h_advance,
+      :v_advance, :items_per_line, :background_color
     attr_reader :face, :image, :glyphs, :glyph_codes, :matrix, :lines
 
     ONE64POINT = 64
@@ -47,7 +48,7 @@ module Glyphr
     end
 
     def reset_image
-      @image = OilyPNG::Canvas.new(image_width, image_height, ChunkyPNG::Color::WHITE)
+      @image = OilyPNG::Canvas.new(image_width, image_height, background_color)
     end
 
     def reset_matrix_image
@@ -71,6 +72,10 @@ module Glyphr
       else
         @glyph_codes = composition
       end
+    end
+
+    def background_color
+      @background_color ||= ChunkyPNG::Color::WHITE
     end
 
     private
