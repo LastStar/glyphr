@@ -4,7 +4,7 @@ require 'ft2'
 module Glyphr
   class Renderer
     attr_accessor :font, :size, :image_width, :image_height, :h_advance,
-      :v_advance, :items_per_line, :background_color
+      :v_advance, :items_per_line, :background_color, :foreground_color
     attr_reader :face, :image, :glyphs, :glyph_codes, :matrix, :lines
 
     ONE64POINT = 64
@@ -78,6 +78,10 @@ module Glyphr
       @background_color ||= ChunkyPNG::Color::WHITE
     end
 
+    def foreground_color
+      @foreground_color ||= ChunkyPNG::Color::BLACK
+    end
+
     private
     # sets up all attributes of freetype
     def setup_ft
@@ -113,9 +117,10 @@ module Glyphr
           kerning = face.kerning(last_code, code, FT2::KerningMode::DEFAULT)
         end
         if glyph.bitmap.width > 0
+          pixels = convert_colors(glyph.bitmap.buffer)
           glyph_image = OilyPNG::Canvas.new(glyph.bitmap.width,
                                             glyph.bitmap.rows,
-                                            glyph.bitmap.buffer.bytes.to_a)
+                                            pixels)
           pen_x = x + glyph.bitmap_left.to_i + (kerning.first / ONE64POINT)
           pen_y = (image_height - glyph.bitmap_top + @y_min + kerning.last)
           if pen_x + glyph.bitmap.width < image_width
@@ -175,6 +180,15 @@ module Glyphr
         @image.line 0, y, image_width, y, ChunkyPNG::Color.rgb(128, 128, 128)
         y = y + v_advance
       end
+    end
+
+    def convert_colors(buffer)
+      pixels = buffer.bytes.to_a
+      if foreground_color != ChunkyPNG::Color::BLACK
+        pixels.map! { |alpha| ChunkyPNG::Color(foreground_color, alpha) }
+      end
+
+      return pixels
     end
   end
 end

@@ -61,6 +61,11 @@ describe Glyphr::Renderer do
       renderer.background_color = ChunkyPNG::Color::BLACK
       renderer.background_color.should == ChunkyPNG::Color::BLACK
     end
+
+    it "can set foreground color" do
+      renderer.foreground_color = ChunkyPNG::Color::WHITE
+      renderer.foreground_color.should == ChunkyPNG::Color::WHITE
+    end
   end
 
   context 'After rendering' do
@@ -96,20 +101,32 @@ describe Glyphr::Renderer do
     end
   end
 
-  context 'Comparing output' do
+  context 'Rendering text' do
     let(:renderer) { Glyphr::Renderer.new("spec/fixtures/metalista.otf", 72) }
 
-    before do
+    it 'should render same image as in fixture' do
       renderer.image_width = 280
       renderer.render('hello world')
-    end
-
-    it 'should render same image as in fixture' do
       renderer.image.save('output.png')
+
       FileUtils.compare_file('output.png', 'spec/fixtures/output.png').should be_true
     end
 
     after { FileUtils.rm('output.png') }
+  end
+
+  context "Rendering with not default colors" do
+    let(:renderer) { Glyphr::Renderer.new("spec/fixtures/metalista.otf", 72) }
+
+    it "renders image with non default background and foreground color" do
+      renderer.image_width = 280
+      renderer.background_color = ChunkyPNG::Color::BLACK
+      renderer.foreground_color = ChunkyPNG::Color(250, 240, 241)
+      renderer.render('hello world')
+      renderer.image.save('output.png')
+      FileUtils.compare_file('output.png', 'spec/fixtures/inverse.png').should be_true
+    end
+
   end
 
   context 'Rendering array of glyphs' do
