@@ -34,7 +34,7 @@ module Glyphr
       return true
     end
 
-    def render_matrix(matrix)
+    def render_matrix(matrix, lines = true)
       return false if not h_advance && v_advance
       @matrix = matrix
 
@@ -42,7 +42,7 @@ module Glyphr
 
       compose_matrix
 
-      draw_lines
+      draw_lines if lines
 
       return @lines
     end

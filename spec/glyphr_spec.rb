@@ -181,6 +181,9 @@ describe Glyphr::Renderer do
       renderer.lines.should == 2
     end
 
+    it "can render without lines between glyphs" do
+      renderer.render_matrix([10, 11, 12, 13, 14, 15, 16, 17], false)
+    end
   end
 
   context 'Rendering to grid' do
