@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "glyphr"
-  s.version = "0.4.2"
+  s.version = "0.4.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Josef Pospisil"]
-  s.date = "2012-08-01"
+  s.date = "2012-08-02"
   s.description = "Library for rendering png images from otf font files, and general manipulation and info gathering from font file. Only rendering part is done and only on basic level."
   s.email = "josef.pospisil@laststar.eu"
   s.extra_rdoc_files = [
