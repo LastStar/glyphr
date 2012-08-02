@@ -166,23 +166,34 @@ describe Glyphr::Renderer do
       renderer.h_advance = 110
       renderer.v_advance = 110
       renderer.items_per_line = 7
-      renderer.render_matrix([10, 11, 12, 13, 14, 15, 16, 17])
     end
 
     it 'computes width for matrix image' do
+      renderer.render_matrix([10, 11, 12, 13, 14, 15, 16, 17])
       renderer.image_width.should == 770
     end
 
     it 'computes height for matrix image' do
+      renderer.render_matrix([10, 11, 12, 13, 14, 15, 16, 17])
       renderer.image_height.should == 220
     end
 
     it 'returns number of really rendered lines' do
+      renderer.render_matrix([10, 11, 12, 13, 14, 15, 16, 17])
       renderer.lines.should == 2
     end
 
     it "can render without lines between glyphs" do
       renderer.render_matrix([10, 11, 12, 13, 14, 15, 16, 17], false)
+    end
+
+    it "has top margin" do
+      renderer.top_margin.should eq 70
+    end
+
+    it "can set top margin" do
+      renderer.top_margin = 0
+      renderer.top_margin.should be_zero
     end
   end
 

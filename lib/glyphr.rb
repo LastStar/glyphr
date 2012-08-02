@@ -4,7 +4,8 @@ require 'ft2'
 module Glyphr
   class Renderer
     attr_accessor :font, :size, :image_width, :image_height, :h_advance,
-      :v_advance, :items_per_line, :background_color, :foreground_color
+      :v_advance, :items_per_line, :background_color, :foreground_color,
+      :top_margin
     attr_reader :face, :image, :glyphs, :glyph_codes, :matrix, :lines
 
     ONE64POINT = 64
@@ -82,6 +83,10 @@ module Glyphr
       @foreground_color ||= ChunkyPNG::Color::BLACK
     end
 
+    def top_margin
+      @top_margin ||=  TOP_MARGIN
+    end
+
     private
     # sets up all attributes of freetype
     def setup_ft
@@ -138,7 +143,7 @@ module Glyphr
     end
 
     def compose_matrix
-      y = TOP_MARGIN
+      y = top_margin
       i = 1
       x = 0
       @lines = 0
@@ -175,7 +180,7 @@ module Glyphr
         @image.line x, 0, x, image_height, ChunkyPNG::Color.rgb(128, 128, 128)
         x = x + h_advance
       end
-      y = (TOP_MARGIN + h_advance/3.0).to_i
+      y = (top_margin + h_advance/3.0).to_i
       (@lines - 1).times do
         @image.line 0, y, image_width, y, ChunkyPNG::Color.rgb(128, 128, 128)
         y = y + v_advance
